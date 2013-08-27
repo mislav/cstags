@@ -34,7 +34,7 @@ fi
 
 TAB=$'\t'
 
-echo "!_TAG_FILE_FORMAT${TAB}1
+echo "!_TAG_FILE_FORMAT${TAB}2
 !_TAG_FILE_SORTED${TAB}1"
 
 find "${files[@]}" \( -name '*.coffee' -or -name '*.litcoffee' \) -print0 |\
@@ -43,6 +43,6 @@ find "${files[@]}" \( -name '*.coffee' -or -name '*.litcoffee' \) -print0 |\
       if [ "${path:0:1}" != "/" ]; then
         path="${relative}${path#./}"
       fi
-      echo "${name##*.}${TAB}${path}${TAB}/^${pattern}"
+      echo "${name##*.}${TAB}${path}${TAB}/^${pattern}$/;\"${TAB}${kind:0:1}"
     done
   } | sort
