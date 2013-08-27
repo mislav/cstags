@@ -3,6 +3,15 @@
 Traverses the CoffeeScript AST to find function/class definitions and generate
 Vim-compatible tags output.
 
+Installation:
+
+```sh
+# clone this project and:
+npm install
+# symlink the command to somewhere in your PATH:
+ln -s $PWD/bin/cstags ~/bin/cstags
+```
+
 Example usage:
 
 ```sh
