@@ -9,6 +9,11 @@ READLINK=$(type -p greadlink readlink | head -1)
 resolved="$($READLINK "$0" || echo "$0")"
 root="$(cd "${resolved%/*}"/.. && pwd)"
 
+if [[ $1 = "-h" || $1 = "--help" ]]; then
+  sed -ne '/^#/!q;s/.\{1,2\}//;1d;p' < "$0"
+  exit 0
+fi
+
 while [ "${1:0:1}" = "-" ]; do
   case "$1" in
   "-f" )
