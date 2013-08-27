@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Usage: cstags [-f TAGSFILE] [DIRS...]
+set -e
+
+tagsfile=""
+relative=""
+root="$(cd "${0%/*}"/.. && pwd)"
+
+while [ "${1:0:1}" = "-" ]; do
+  case "$1" in
+  "-f" )
+    tagsfile="$2"
+    shift 2
+    ;;
+  esac
+done
+
+files=( "$@" )
+[ ${#files} -eq 0 ] && files=( "." )
+
+if [ -n "$tagsfile" ]; then
+  tagsfile="${tagsfile#./}"
+  stripped="${tagsfile//\/}"
+  slashes=$(( ${#tagsfile} - ${#stripped} ))
+  while [ "$slashes" -gt 0 ]; do
+    relative="../$relative"
+    slashes=$((slashes-1))
+  done
+  exec 1<>"$tagsfile"
+fi
+
+TAB=$'\t'
+
+echo "!_TAG_FILE_FORMAT${TAB}1
+!_TAG_FILE_SORTED${TAB}1"
+
+find "${files[@]}" \( -name '*.coffee' -or -name '*.litcoffee' \) -print0 |\
+  xargs -0 "$root"/node_modules/.bin/coffee "$root"/src/cstags.coffee | {
+    while IFS=$'\t' read name kind path line pattern; do
+      if [ "${path:0:1}" != "/" ]; then
+        path="${relative}${path#./}"
+      fi
+      echo "${name##*.}${TAB}${path}${TAB}/^${pattern}"
+    done
+  } | sort
