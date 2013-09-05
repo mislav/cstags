@@ -16,10 +16,10 @@ Example usage:
 
 ```sh
 # dump tags for all *.(lit)coffee files in the current project
-ctags
+cstags
 
 # parse only specific files
-ctags src/my.coffee
+cstags src/my.coffee
 
 # traverse only specific directories
 cstags src app/assets
