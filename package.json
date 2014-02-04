@@ -1,4 +1,8 @@
 { "dependencies": {
     "coffee-script": "1.6.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mislav/cstags"
   }
 }
